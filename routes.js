@@ -6,9 +6,31 @@ const requestHandler = (req, res) => {
   if (url === '/') {
     res.write('<html>');
     res.write('<head><title>Enter Message</title></head>');
+    res.write('<body>');
+    res.write('<H1>greetings</H1>');
     res.write(
-      '<body><form action="/message" method="POST"><input type="text" name="message"><button type="submit">Send</button></form></body>'
+        '<form id="message" action="/message" method="POST"><input type="text" name="message"><button type="submit">Send</button></form>'
     );
+    res.write(
+        '<form id="createUser" action="/create-user" method="POST"><input type="text" name="newUser"><button type="submit">Create user</button></form>'
+    );
+    res.write('</body>');
+    res.write('</html>');
+    return res.end();
+  }
+
+  if (url === '/users') {
+    res.write('<html>');
+    res.write('<head><title>Users list</title></head>');
+    res.write('<body>');
+    res.write('<ul>');
+    res.write('<li>');
+    res.write('User1');
+    res.write('User2');
+    res.write('User3');
+    res.write('</li>');
+    res.write('</ul>');
+    res.write('</body>');
     res.write('</html>');
     return res.end();
   }
@@ -29,6 +51,20 @@ const requestHandler = (req, res) => {
       });
     });
   }
+
+  if (url === "/create-user" && method === 'POST') {
+    const body = [];
+    req.on('data', chunk => {
+      console.log(chunk);
+      body.push(chunk);
+    });
+    return req.on('end', () => {
+      const parsedBody = Buffer.concat(body).toString();
+      const newUser = parsedBody.split('=')[1];
+        console.log(newUser);
+    });
+  }
+
   res.setHeader('Content-Type', 'text/html');
   res.write('<html>');
   res.write('<head><title>My First Page</title><head>');

@@ -11,9 +11,12 @@ const app = express();
 // app.set('view engine', 'pug');
 
 //handlebars
-const expressHbs = require('express-handlebars');
-app.engine('handlebars', expressHbs({layoutsDir: 'views/layouts/', defaultLayout: 'main-layout'}));
-app.set('view engine', 'handlebars');
+// const expressHbs = require('express-handlebars');
+// app.engine('handlebars', expressHbs({layoutsDir: 'views/layouts/', defaultLayout: 'main-layout'}));
+// app.set('view engine', 'handlebars');
+
+//EJS
+app.set('view engine', 'ejs');
 
 app.set('views', 'views');
 

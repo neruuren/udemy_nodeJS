@@ -7,7 +7,14 @@ const rootDir = require('./helpers/path');
 
 const app = express();
 
-app.set('view engine', 'pug');
+//pug
+// app.set('view engine', 'pug');
+
+//handlebars
+const expressHbs = require('express-handlebars');
+app.engine('handlebars', expressHbs({layoutsDir: 'views/layouts/', defaultLayout: 'main-layout'}));
+app.set('view engine', 'handlebars');
+
 app.set('views', 'views');
 
 const adminData = require('./routes/admin');

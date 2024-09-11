@@ -12,8 +12,14 @@ router.get('/',(req, res, next) => {
     console.log('shop.js', products);
     // res.sendFile(path.join(rootDir, 'views', 'shop.html'));
     
-    //pug
-    res.render('shop', {prods: products, pageTitle: 'My Book Shop', path: '/'})
+    res.render('shop', {
+        prods: products,
+        pageTitle: 'My Book Shop',
+        path: '/',
+        hasProducts: products.length > 0,
+        activeShop: true,
+        productCSS: true,
+    });
 });
 
 module.exports = router;

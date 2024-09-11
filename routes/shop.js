@@ -9,16 +9,11 @@ const adminData = require('./admin');
 
 router.get('/',(req, res, next) => {
     const products = adminData.products;
-    console.log('shop.js', products);
-    // res.sendFile(path.join(rootDir, 'views', 'shop.html'));
-    
     res.render('shop', {
         prods: products,
         pageTitle: 'My Book Shop',
         path: '/',
-        hasProducts: products.length > 0,
-        activeShop: true,
-        productCSS: true,
+        error: false,
     });
 });
 

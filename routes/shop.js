@@ -13,7 +13,6 @@ router.get('/',(req, res, next) => {
         prods: products,
         pageTitle: 'My Book Shop',
         path: '/',
-        error: false,
     });
 });
 

@@ -18,6 +18,9 @@ router.get('/products/:productId', shopController.getProduct);
 // /cart => GET
 router.get('/cart', shopController.getCart);
 
+// /cart => POST
+router.post('/cart', shopController.postCart);
+
 // /orders => GET
 router.get('/orders', shopController.getOrders);
 

@@ -19,7 +19,7 @@ const Product = sequilize.define('product', {
         allowNull: false,
     },
     description :{
-        type: Sequilize.STRING,
+        type: Sequilize.TEXT,
         allowNull: false,
     }
 });

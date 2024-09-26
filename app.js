@@ -6,7 +6,9 @@ const bodyParser = require('body-parser');
 const errorsController = require('./controllers/errors');
 const rootDir = require('./helpers/path');
 
-const sequilize = require('./helpers/database')
+const sequilize = require('./helpers/database');
+const Product = require('./models/product');
+const User = require('./models/user');
 
 const app = express();
 
@@ -20,17 +22,41 @@ app.use(bodyParser.urlencoded({extended: false}));
 app.use(express.static(path.join(rootDir, 'public')));
 // app.use(express.static(path.join(__dirname, 'public')));
 
+app.use((req, res, next) => {
+    User.findByPk(1)
+        .then(user => {
+            req.user = user;
+            next();
+        })
+        .catch(err => {
+            console.log(err);
+        });
+});
+
 app.use('/admin', adminRoutes);
 app.use(shopRoutes);
 
 app.use(errorsController.get404);
 
-sequilize
-    .sync()
-    .then(result => {
-        // console.log(result);
-        app.listen(3000);
-    }).catch(err => {
-        console.log(err);
-    })
+Product.belongsTo(User, {constraints: true, onDelete: 'CASCADE'});
+User.hasMany(Product);
 
+sequilize
+    // .sync({force: true})
+    .sync()
+    .then(() => {
+        return User.findByPk(1);
+    })
+    .then(user => {
+        if(!user) {
+            return User.create({name: 'Greg', email: 'test@test.com'});
+        }
+        return user;
+    })
+    .then(user => {
+        // console.log(user);
+        app.listen(3000);
+    })
+    .catch(err => {
+        console.log(err);
+    });

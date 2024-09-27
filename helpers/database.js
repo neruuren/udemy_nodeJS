@@ -1,8 +1,15 @@
-const Sequilize = require('sequelize');
+const mongodb = require('mongodb');
+const MongoClient = mongodb.MongoClient;
 
-const sequilize = new Sequilize('node-complete', 'TUF', 'Titan%2015', {
-    dialect: 'mysql', 
-    host: '192.168.50.32',
-});
+const mongoConnect = callback => {
+MongoClient.connect('mongodb+srv://udemyShoppingApp:OMQ7Qw6eU8gz1Ubf@cluster0.zmacg.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0')
+    .then(client => {
+        console.log('Connected');
+        callback(client);
+    })
+    .catch(err => {
+        console.log(err);
+    });
+};
 
-module.exports = sequilize;
+module.exports = mongoConnect;

@@ -2,12 +2,12 @@ const path = require('path');
 
 const express = require('express');
 const bodyParser = require('body-parser');
+const mongoose = require('mongoose');
 
 const errorsController = require('./controllers/errors');
 const rootDir = require('./helpers/path');
 
-const mongoConnect = require('./helpers/database').mongoConnect;
-const User = require('./models/user')
+const User = require('./models/user');
 
 const app = express();
 
@@ -22,9 +22,10 @@ app.use(express.static(path.join(rootDir, 'public')));
 // app.use(express.static(path.join(__dirname, 'public')));
 
 app.use((req, res, next) => {
-    User.findById("670d1f5930e831bfe7c56084")
+    User
+        .findById("671eb00577841e4b0a9b20e3")
         .then(user => {
-            req.user = new User(user.name, user.email, user.cart, user._id);
+            req.user = user;
             next();
         })
         .catch(err => {
@@ -37,6 +38,25 @@ app.use(shopRoutes);
 
 app.use(errorsController.get404);
 
-mongoConnect(() => {
-    app.listen(3000);
-});
+mongoose
+    .connect('mongodb+srv://udemyShoppingApp:OMQ7Qw6eU8gz1Ubf@cluster0.zmacg.mongodb.net/shop?retryWrites=true&w=majority&appName=Cluster0')
+    .then(() => {
+        User
+            .findOne()
+            .then(user => {
+                if(!user) {
+                    const user = new User({
+                        name: 'Greg',
+                        email: 'test@test.com',
+                        cart: {
+                            items: [],
+                        },
+                    });
+                    user.save();
+                }
+            })
+        app.listen(3000);
+    })
+    .catch(err => {
+        console.log(err);
+    });

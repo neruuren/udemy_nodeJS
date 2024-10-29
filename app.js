@@ -31,17 +31,6 @@ app.use(bodyParser.urlencoded({extended: false}));
 app.use(express.static(path.join(rootDir, 'public')));
 // app.use(express.static(path.join(__dirname, 'public')));
 
-app.use((req, res, next) => {
-User
-.findById("671eb00577841e4b0a9b20e3")
-.then(user => {
-        req.user = user;
-        next();
-    })
-    .catch(err => {
-        console.log(err);
-    });
-});
 app.use(
     session({
         secret: 'my secret(should be a long string in  production)', 
